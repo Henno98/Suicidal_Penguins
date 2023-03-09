@@ -1,0 +1,23 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Blueprints/Blueprint_CeilingLight.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Player_Penguin.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Bullet.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Enemy.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Basic_map.umap",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Camera_X.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Camera_Y.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Forward.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Right.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IM_Player_input.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Reload.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Shoot.uasset"
+			]
+		}
+	]
+}
