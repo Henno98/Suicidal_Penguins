@@ -6,7 +6,7 @@
 #include "Components/BoxComponent.h"
 #include "Engine/StaticMeshSocket.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "Target.h"
+
 
 // Sets default values
 AEnemy::AEnemy()

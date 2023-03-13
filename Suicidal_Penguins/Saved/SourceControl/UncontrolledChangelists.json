@@ -1,0 +1,16 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Architecture/Floor_400x400.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IM_Player_input.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Up.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Player_Penguin.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Basic_map.umap"
+			]
+		}
+	]
+}

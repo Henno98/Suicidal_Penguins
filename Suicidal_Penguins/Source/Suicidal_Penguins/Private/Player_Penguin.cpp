@@ -15,7 +15,7 @@ APlayer_Penguin::APlayer_Penguin()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.bCanEverTick = true;
+	
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	SetRootComponent(StaticMesh);
@@ -43,6 +43,7 @@ APlayer_Penguin::APlayer_Penguin()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	checkRestart = 0;
 	GameOver = false;
+	InAir = false;
 }
 
 
@@ -71,7 +72,7 @@ void APlayer_Penguin::Tick(float DeltaTime)
 
 	FVector NewLocation = GetActorLocation() + (ForwardVector * MovementSpeed * DeltaTime);
 	SetActorLocation(NewLocation);*/
-
+	Clock += DeltaTime;
 	AddControllerYawInput(Yaw);
 	AddControllerPitchInput(Pitch);
 
@@ -98,6 +99,23 @@ void APlayer_Penguin::Tick(float DeltaTime)
 
 		SetActorRotation(Rotation);
 	}
+	if ((Controller != nullptr) && (Zinput != 0.f))
+	{
+		FRotator Rotation = Controller->GetControlRotation();
+		Rotation.Pitch = 0.f;
+		Rotation.Roll = 0.f;
+
+		FVector Direction = FRotationMatrix(Rotation).GetUnitAxis(EAxis::Z);
+		SetActorLocation(GetActorLocation() + (Direction * Zinput * MovementSpeed * DeltaTime)) ;
+
+		SetActorRotation(Rotation);
+		
+	}
+	if (GetActorLocation().Z > 30) {
+		SetActorLocation(GetActorLocation() - (FVector(0, 0, 9.6)*DeltaTime));
+		
+	}
+	
 }
 
 // Called to bind functionality to input
@@ -110,13 +128,19 @@ void APlayer_Penguin::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	if (UEnhancedInputComponent* EnhanceInputCom = CastChecked<UEnhancedInputComponent>(PlayerInputComponent)) {
 		EnhanceInputCom->BindAction(ForwardInput, ETriggerEvent::Triggered, this, &APlayer_Penguin::Forward);
 		EnhanceInputCom->BindAction(RightInput, ETriggerEvent::Triggered, this, &APlayer_Penguin::Right);
+		EnhanceInputCom->BindAction(UpInput, ETriggerEvent::Triggered, this, &APlayer_Penguin::Up);
+
+
 		EnhanceInputCom->BindAction(ForwardInput, ETriggerEvent::Completed, this, &APlayer_Penguin::Forward);
 		EnhanceInputCom->BindAction(RightInput, ETriggerEvent::Completed, this, &APlayer_Penguin::Right);
+		EnhanceInputCom->BindAction(UpInput, ETriggerEvent::Completed, this, &APlayer_Penguin::Up);
+
 		EnhanceInputCom->BindAction(MouseXInput, ETriggerEvent::Triggered, this, &APlayer_Penguin::MouseX);
 		EnhanceInputCom->BindAction(MouseYInput, ETriggerEvent::Triggered, this, &APlayer_Penguin::MouseY);
 
 		EnhanceInputCom->BindAction(MouseXInput, ETriggerEvent::Completed, this, &APlayer_Penguin::MouseX);
 		EnhanceInputCom->BindAction(MouseYInput, ETriggerEvent::Completed, this, &APlayer_Penguin::MouseY);
+
 		EnhanceInputCom->BindAction(ShootInput, ETriggerEvent::Started, this, &APlayer_Penguin::Shoot);
 		EnhanceInputCom->BindAction(ReloadInput, ETriggerEvent::Started, this, &APlayer_Penguin::Reload);
 		EnhanceInputCom->BindAction(RestartInput, ETriggerEvent::Started, this, &APlayer_Penguin::Restart);
@@ -140,6 +164,19 @@ void APlayer_Penguin::Forward(const FInputActionValue& input)
 {
 	XInput = input.Get<float>();
 }
+void APlayer_Penguin::Up(const FInputActionValue& input)
+{
+	Zinput = input.Get<float>();
+	/*if (GetActorLocation().Z >= 30 && !InAir) {
+		FVector JumpHeight = GetActorLocation();
+		FVector Gravity = FVector(0, 0, 2);
+		FVector Jump = FVector(0, 0, 10);
+		JumpHeight += (Jump * Clock);
+		SetActorLocation(JumpHeight);
+		
+	}*/
+	
+}
 void APlayer_Penguin::Right(const FInputActionValue& input)
 {
 	YInput = input.Get<float>();
@@ -156,14 +193,7 @@ void APlayer_Penguin::HitByTarget()
 	}
 }
 
-// void AMyPlayer::HitByTarget()
-// {
-// 	Lives--;
-// 	if (Lives <= 0)
-// 	{
-// 		// TODO GAME OVER
-// 	}
-// }
+
 
 void APlayer_Penguin::Shoot(const FInputActionValue& input)
 {
@@ -176,6 +206,7 @@ void APlayer_Penguin::Shoot(const FInputActionValue& input)
 			FRotator Rotation = Controller->GetControlRotation();
 			Rotation.Pitch = 0.f;
 			Rotation.Roll = 0.f;
+			
 
 			FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 

@@ -71,6 +71,8 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 			float checkRestart;
 
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+			bool InAir;
 
 
 		/** Public Function */
@@ -78,11 +80,12 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 
 		/** Private Variables */
 	private:
-
+		float Zinput;
 		float XInput;
 		float YInput;
 		float Yaw;
 		float Pitch;
+		float Clock;
 
 		void MouseX(const FInputActionValue& input);
 		void MouseY(const FInputActionValue& input);
@@ -92,12 +95,13 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 		/** Private Functions */
 
 		void Forward(const FInputActionValue& input);
+		void Up(const FInputActionValue& input);
 		void Right(const FInputActionValue& input);
 
 		void Shoot(const FInputActionValue& input);
 		void Reload(const FInputActionValue& input);
 		void Restart(const FInputActionValue& input);
-
+		
 	public:
 		//Input
 
@@ -106,6 +110,9 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
 			class UInputAction* ForwardInput;
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
+			class UInputAction* UpInput;
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
 			class UInputAction* RightInput;
