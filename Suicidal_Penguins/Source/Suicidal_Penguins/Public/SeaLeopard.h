@@ -3,39 +3,40 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "Enemy.generated.h"
+#include "GameFramework/Pawn.h"
+#include "SeaLeopard.generated.h"
 
 class UBoxComponent;
 class ABullet;
 class UPawnSensingComponent;
 
 UCLASS()
-class SUICIDAL_PENGUINS_API AEnemy : public AActor
+class SUICIDAL_PENGUINS_API ASeaLeopard : public APawn
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AEnemy();
+	// Sets default values for this pawn's properties
+	ASeaLeopard();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
 	void PawnSeen(APawn* SeenPawn);
-	
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UBoxComponent* Collider {
+	UBoxComponent* Collider {
 		nullptr
 	};
 
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	// 	USkeletalMeshComponent* SkeletalMesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USkeletalMeshComponent* SkeletalMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* StaticMesh;
@@ -46,20 +47,20 @@ public:
 			bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-		void DestroyTarget();
+	void DestroyTarget();
 
 	UFUNCTION()
-		void Shoot();
+	void Shoot();
 	
 	UFUNCTION()
-		void Delay(float Time);
+	void Delay(float Time);
 
 	//Variables
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-		float MovementSpeed;
+	float MovementSpeed;
 
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-		float RotationSpeed;
+	float RotationSpeed;
 
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	// int Ammo;
@@ -77,3 +78,4 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UPawnSensingComponent* PawnSensing;
 };
+

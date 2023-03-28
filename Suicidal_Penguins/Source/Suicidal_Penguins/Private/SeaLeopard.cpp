@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Enemy.h"
-
+#include "SeaLeopard.h"
 #include "Goal.h"
 #include "Player_Penguin.h"
 #include "Components/BoxComponent.h"
@@ -12,22 +11,28 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
 
-
 // Sets default values
-AEnemy::AEnemy()
+ASeaLeopard::ASeaLeopard()
 {
+ 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 	SetRootComponent(Collider);
 	Collider->InitBoxExtent(FVector(100, 100, 100));
-	Collider->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnOverlap);
+	Collider->OnComponentBeginOverlap.AddDynamic(this, &ASeaLeopard::OnOverlap);
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	StaticMesh->SetupAttachment(GetRootComponent());
 	StaticMesh->SetRelativeScale3D(FVector(0.1f, 1.f, 1.f));
 	StaticMesh->SetRelativeLocation(FVector(0.f, 0.f, 40));
 
+	// SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));
+	// SkeletalMesh->SetupAttachment(GetRootComponent());
+	// SkeletalMesh->SetRelativeScale3D(FVector(0.1f, 1.f, 1.f));
+	// SkeletalMesh->SetRelativeLocation(FVector(0.f, 0.f, 40));
 	
 	PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensing"));
 	PawnSensing->SightRadius = 7000.f;
@@ -40,25 +45,22 @@ AEnemy::AEnemy()
 }
 
 // Called when the game starts or when spawned
-void AEnemy::BeginPlay()
+void ASeaLeopard::BeginPlay()
 {
 	Super::BeginPlay();
-	/*RotationSpeed = FMath::RandRange(0.5f, 1.5f);*/
-	MovementSpeed += FMath::RandRange(0, 250);
+	
+}
 
+void ASeaLeopard::PawnSeen(APawn* SeenPawn)
+{
 	if (PawnSensing)
 	{
-		PawnSensing->OnSeePawn.AddDynamic(this, &AEnemy::PawnSeen);
+		PawnSensing->OnSeePawn.AddDynamic(this, &ASeaLeopard::PawnSeen);
 	}
 }
 
-void AEnemy::PawnSeen(APawn* SeenPawn)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Pawn Seen"));
-}
-
 // Called every frame
-void AEnemy::Tick(float DeltaTime)
+void ASeaLeopard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -93,7 +95,7 @@ void AEnemy::Tick(float DeltaTime)
 	// }
 }
 
-void AEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ASeaLeopard::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor->IsA<APlayer_Penguin>())
 	{
@@ -103,7 +105,7 @@ void AEnemy::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherAc
 	}
 }
 
-void AEnemy::DestroyTarget()
+void ASeaLeopard::DestroyTarget()
 {
 	// SetActorHiddenInGame(true);
 	// SetActorEnableCollision(false);
@@ -111,7 +113,7 @@ void AEnemy::DestroyTarget()
 }
 
 // Shoot towards the player
-void AEnemy::Shoot()
+void ASeaLeopard::Shoot()
 {
 	GetWorld()->SpawnActor<AActor>(BP_Bullet,				// What to spawn
 				 GetActorLocation(), GetActorRotation());	// Location & Rotation
@@ -133,7 +135,7 @@ void AEnemy::Shoot()
 	// }
 }
 
-void AEnemy::Delay(float Time)
+void ASeaLeopard::Delay(float Time)
 {
 	// ReloadDelay = Time * 100000000;
 	// if (ReloadDelay == 0)

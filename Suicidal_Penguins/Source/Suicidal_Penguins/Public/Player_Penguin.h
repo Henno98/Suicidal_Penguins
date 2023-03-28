@@ -62,6 +62,7 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 			int Lives;
+	
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 			bool CanRestart;
 
