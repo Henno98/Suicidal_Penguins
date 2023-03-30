@@ -45,8 +45,13 @@ void ATest_Code::BeginPlay()
 	Super::BeginPlay();
 
 	GetCharacterMovement()->MaxWalkSpeed = 10000.f;
+	GetCharacterMovement()->MaxAcceleration = 2000.f;
+	GetCharacterMovement()->GroundFriction = 0.5f;
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 90.0f, 0.0f);
+	GetCharacterMovement()->AirControl = 0.2;
+	GetCharacterMovement()->GravityScale = 10;
 	
-
+	
 	APlayerController* PlayerController = Cast<APlayerController>(Controller);
 	if (PlayerController)
 	{

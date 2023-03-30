@@ -1,0 +1,51 @@
+{
+	"version": 1,
+	"changelists": [
+		{
+			"guid": "00000000000000000000000000000000",
+			"description": "Default Uncontrolled Changelist",
+			"files": [
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Architecture/Floor_400x400.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IM_Player_input.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Up.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Player_Penguin.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Basic_map.umap",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Right.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Enemy.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Penguin.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/TestTrack2.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/lambert1.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/TestTrack.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Banev2_1_.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Project_Models/lambert1.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Project_Models/SK_LeopardSealPlaceholder.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Project_Models/SK_LeopardSealPlaceholder_PhysicsAsset.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Project_Models/SK_LeopardSealPlaceholder_Skeleton.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/IA_Input_Mappings/IA_Player/IA_Forward.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BluePrints/BP_Test_Code.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/bane3_bakke1.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/bane3_middle.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/bane3_pCylinder2.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/bane3_tunellend.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane3/bane3_bakke1.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane3/bane3_middle.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane3/bane3_pCylinder2.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane3/bane3_tunellend.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane3/Banev2_1_.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane4/bane4_pCylinder1.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane4/bane4_bakke1.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane4/bane4_middle.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane4/bane4_tunellend.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Bane4/lambert1.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Materials/M_Basic_Floor.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Materials/M_Brick_Clay_New.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Materials/M_Ceramic_Tile_Checker.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Materials/M_CobbleStone_Pebble.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Materials/M_CobbleStone_Rough.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/StarterContent/Materials/M_Water_Lake.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BP_Test_Code.uasset",
+				"C:/Users/larss/Documents/Github repositories/Suicidal_Penguins/Suicidal_Penguins/Content/BP_Penguin.uasset"
+			]
+		}
+	]
+}
