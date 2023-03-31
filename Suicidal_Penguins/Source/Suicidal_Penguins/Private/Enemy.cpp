@@ -35,8 +35,7 @@ AEnemy::AEnemy()
 	
 	MovementSpeed = 350;
 	RotationSpeed = 0.f;
-	// Ammo = 10;
-	// MaxAmmo = 10;
+	
 }
 
 // Called when the game starts or when spawned

@@ -51,9 +51,6 @@ public:
 
 	UFUNCTION()
 	void Shoot();
-	
-	UFUNCTION()
-	void Delay(float Time);
 
 	//Variables
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
@@ -62,14 +59,11 @@ public:
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	float RotationSpeed;
 
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-	// int Ammo;
-	//
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-	// int MaxAmmo;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-	int ReloadDelay;
+	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	float ShootDelay;
+
+	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	float TimeSinceShooting;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	TSubclassOf<ABullet> BP_Bullet;

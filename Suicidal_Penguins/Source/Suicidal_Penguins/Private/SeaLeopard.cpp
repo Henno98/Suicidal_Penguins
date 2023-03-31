@@ -6,10 +6,13 @@
 #include "Player_Penguin.h"
 #include "Components/BoxComponent.h"
 #include "Perception/PawnSensingComponent.h"
+#include "AIController.h"
 #include "Engine/StaticMeshSocket.h"
 #include "Bullet.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 // Sets default values
 ASeaLeopard::ASeaLeopard()
@@ -38,10 +41,10 @@ ASeaLeopard::ASeaLeopard()
 	PawnSensing->SightRadius = 7000.f;
 	PawnSensing->SetPeripheralVisionAngle(45.f);
 	
-	MovementSpeed = 350;
+	MovementSpeed = 0;
 	RotationSpeed = 0.f;
-	// Ammo = 10;
-	// MaxAmmo = 10;
+	ShootDelay = 3.f;
+	TimeSinceShooting = 3.f;
 }
 
 // Called when the game starts or when spawned
@@ -53,10 +56,7 @@ void ASeaLeopard::BeginPlay()
 
 void ASeaLeopard::PawnSeen(APawn* SeenPawn)
 {
-	if (PawnSensing)
-	{
-		PawnSensing->OnSeePawn.AddDynamic(this, &ASeaLeopard::PawnSeen);
-	}
+	UE_LOG(LogTemp, Warning, TEXT("Seen Pawn"));
 }
 
 // Called every frame
@@ -64,35 +64,41 @@ void ASeaLeopard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//Shoot
-	// if ()
-	// {
-	// 	
-	// }
-	Shoot();
+	if (PawnSensing)
+	{
+		PawnSensing->OnSeePawn.AddDynamic(this, &ASeaLeopard::PawnSeen);
+
+		APlayer_Penguin* Player = Cast<APlayer_Penguin>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPawn());
+		if (Player)
+		{
+			FRotator NewRotation{ UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Player->GetActorLocation()) };
+			SetActorRotation(NewRotation);
+		}
+		
+		TimeSinceShooting += DeltaTime;
+		if (TimeSinceShooting > ShootDelay)
+		{
+			Shoot();
+			TimeSinceShooting = 0.f;
+		}
+		
+	}
 	
 	//Move
-	// FVector NewLocation = GetActorLocation();
-
-	// if (const AGoal* Goal = )
-	// 	if (const APawn* Pawnpc = pc->GetPawn())
-	// 	{
-	// 		const FVector PawnLocation = Pawnpc->GetActorLocation();
-	// 		FVector VectorPtoT = PawnLocation - NewLocation;
-	// 		VectorPtoT.Normalize();
-	// 		VectorPtoT *= FVector(1, 1, 0);
-	// 		/*FRotator newrot = (Pawnpc - GetActorLocation()).Rotation();*/
-	// 		SetActorLocation(NewLocation + VectorPtoT * MovementSpeed * DeltaTime);
-	// 	}
+	
+	// if (const AActor* Player = pc->GetPawn())
+	// {
+	// 	const FVector PawnLocation = Player->GetActorLocation();
+	// 	FVector VectorPtoT = PawnLocation - NewLocation;
+ // 		VectorPtoT.Normalize();
+	// 	VectorPtoT *= FVector(1, 1, 0);
+	// 	FRotator newrot = (Player - GetActorLocation()).Rotation();
+	// 	SetActorLocation(NewLocation + VectorPtoT * MovementSpeed * DeltaTime);
+	// }
 
 	//Rotate
-	/*SetActorRotation(GetActorRotation() + FRotator(0, Pawnpc->GetActorLocation(), 0));*/
-
-	//kill
-	// if (GetActorLocation().X < XKillPosition)
-	// {
-	// 	DestroyTarget();
-	// }
+	// SetActorRotation(GetActorRotation() + FRotator(0, ->GetActorLocation(), 0));
+	
 }
 
 void ASeaLeopard::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -115,32 +121,6 @@ void ASeaLeopard::DestroyTarget()
 // Shoot towards the player
 void ASeaLeopard::Shoot()
 {
-	GetWorld()->SpawnActor<AActor>(BP_Bullet,				// What to spawn
-				 GetActorLocation(), GetActorRotation());	// Location & Rotation
-	// if (Ammo > 0)
-	// {
-	// 	Ammo--;
-	// 	
-	// 	GetWorld()->SpawnActor<AActor>(BP_Bullet,                                        // What to spawn
-	// 			 GetActorLocation(), GetActorRotation());								// Location & Rotation
-	// }
-	// else
-	// {
-	// 	ReloadDelay = 5;
-	// 	if (ReloadDelay == 0)
-	// 	{
-	// 		Ammo = MaxAmmo;
-	// 	}
-	// 	ReloadDelay--;
-	// }
-}
-
-void ASeaLeopard::Delay(float Time)
-{
-	// ReloadDelay = Time * 100000000;
-	// if (ReloadDelay == 0)
-	// {
-	// 	Ammo = MaxAmmo;
-	// }
-	// ReloadDelay--;
+	GetWorld()->SpawnActor<AActor>(BP_Bullet,                                        // What to spawn
+		GetActorLocation(), GetActorRotation());								// Location & Rotation
 }

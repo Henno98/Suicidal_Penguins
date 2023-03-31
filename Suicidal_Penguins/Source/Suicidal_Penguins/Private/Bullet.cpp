@@ -4,6 +4,8 @@
 #include "Bullet.h"
 #include "Components/SphereComponent.h"
 #include "Enemy.h"
+#include "SeaLeopard.h"
+#include "Player_Penguin.h"
 
 
 // Sets default values
@@ -52,15 +54,28 @@ void ABullet::Tick(float DeltaTime)
 
 void ABullet::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor->IsA<AEnemy>())
+	if (OtherActor->IsA<APlayer_Penguin>())
 	{
 		//Destroy Target
 		Cast<AEnemy>(OtherActor)->DestroyTarget();
 
 		//Destroys bullet
 		DestroyBullet();
-
 	}
+	// else if (OtherActor->IsA<ASeaLeopard>())
+	// {
+	// 	//Destroy Target
+	// 	Cast<AEnemy>(OtherActor)->DestroyTarget();
+	//
+	// 	//Destroys bullet
+	// 	DestroyBullet();
+	// }
+	// else if (OtherActor->IsA<APlayer_Penguin>())
+	// {
+	// 	//Destroys bullet
+	// 	DestroyBullet();
+	// }
+	
 }
 
 void ABullet::DestroyBullet()
