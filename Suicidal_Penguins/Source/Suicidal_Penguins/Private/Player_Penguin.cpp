@@ -222,8 +222,8 @@ void APlayer_Penguin::Reload(const FInputActionValue& input)
 	Ammo = MaxAmmo;
 }
 
-void APlayer_Penguin::Restart(const FInputActionValue& input)
-{
-	/*CanRestart = true;
-	checkRestart = 1;*/
-}
+// void APlayer_Penguin::Restart(const FInputActionValue& input)
+// {
+// 	/*CanRestart = true;
+// 	checkRestart = 1;*/
+// }

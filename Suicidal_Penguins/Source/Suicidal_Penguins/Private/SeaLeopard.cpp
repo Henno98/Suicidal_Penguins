@@ -13,6 +13,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GameFramework/Pawn.h"
+#include "Math/UnitConversion.h"
 
 // Sets default values
 ASeaLeopard::ASeaLeopard()
@@ -40,23 +42,62 @@ ASeaLeopard::ASeaLeopard()
 	PawnSensing = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensing"));
 	PawnSensing->SightRadius = 7000.f;
 	PawnSensing->SetPeripheralVisionAngle(45.f);
+	PawnSensing->bSeePawns = true;
+	PawnSensing->OnSeePawn.AddDynamic(this, &ASeaLeopard::PawnSeen);
 	
 	MovementSpeed = 0;
 	RotationSpeed = 0.f;
 	ShootDelay = 3.f;
 	TimeSinceShooting = 3.f;
+	CanShoot = false;
 }
 
 // Called when the game starts or when spawned
 void ASeaLeopard::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void ASeaLeopard::PawnSeen(APawn* SeenPawn)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Seen Pawn"));
+
+	// Check if the seen pawn is the player
+	APawn* Player = UGameplayStatics::GetPlayerPawn(this, 0);
+	if (SeenPawn == Player)
+	{
+		// Check if the player is within range and not behind a wall
+		bool bCanSeePlayer = PawnSensing->HasLineOfSightTo(Player) && (GetDistanceTo(Player) <= PawnSensing->SightRadius);
+		if (bCanSeePlayer)
+		{
+			// Rotate the pawn toward the player
+			FVector PlayerLocation = Player->GetActorLocation();
+			FVector PawnLocation = GetActorLocation();
+			FRotator NewRotation = (PlayerLocation - PawnLocation).Rotation();
+			SetActorRotation(NewRotation);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Pawn is not Player"));
+	}
+	
+	 // Check if the pawn can see the player
+	 if (PawnSensing->HasLineOfSightTo(SeenPawn))
+	 {
+	 // Get the player location and rotate towards it
+	 	FVector PlayerLocation = Player->GetActorLocation();
+	 	FRotator LookAtRotation = FRotationMatrix::MakeFromX(PlayerLocation - GetActorLocation()).Rotator();
+	  	SetActorRotation(LookAtRotation);
+	 	CanShoot = true;
+	 }
+	 else
+	 {
+	 	UE_LOG(LogTemp, Warning, TEXT("No Player seen"));
+	 	CanShoot = false;
+	 }
+
+	
 }
 
 // Called every frame
@@ -64,44 +105,19 @@ void ASeaLeopard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (PawnSensing)
+	if (CanShoot == true)
 	{
-		PawnSensing->OnSeePawn.AddDynamic(this, &ASeaLeopard::PawnSeen);
-
-		APlayer_Penguin* Player = Cast<APlayer_Penguin>(UGameplayStatics::GetPlayerController(GetWorld(), 0)->GetPawn());
-		if (Player)
-		{
-			FRotator NewRotation{ UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Player->GetActorLocation()) };
-			SetActorRotation(NewRotation);
-		}
-		
 		TimeSinceShooting += DeltaTime;
 		if (TimeSinceShooting > ShootDelay)
 		{
 			Shoot();
 			TimeSinceShooting = 0.f;
 		}
-		
 	}
-	
-	//Move
-	
-	// if (const AActor* Player = pc->GetPawn())
-	// {
-	// 	const FVector PawnLocation = Player->GetActorLocation();
-	// 	FVector VectorPtoT = PawnLocation - NewLocation;
- // 		VectorPtoT.Normalize();
-	// 	VectorPtoT *= FVector(1, 1, 0);
-	// 	FRotator newrot = (Player - GetActorLocation()).Rotation();
-	// 	SetActorLocation(NewLocation + VectorPtoT * MovementSpeed * DeltaTime);
-	// }
-
-	//Rotate
-	// SetActorRotation(GetActorRotation() + FRotator(0, ->GetActorLocation(), 0));
-	
 }
 
-void ASeaLeopard::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ASeaLeopard::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor->IsA<APlayer_Penguin>())
 	{
@@ -113,14 +129,14 @@ void ASeaLeopard::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 
 void ASeaLeopard::DestroyTarget()
 {
-	// SetActorHiddenInGame(true);
-	// SetActorEnableCollision(false);
-	// this->Destroy();
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
+	this->Destroy();
 }
 
 // Shoot towards the player
 void ASeaLeopard::Shoot()
 {
-	GetWorld()->SpawnActor<AActor>(BP_Bullet,                                        // What to spawn
-		GetActorLocation(), GetActorRotation());								// Location & Rotation
+	GetWorld()->SpawnActor<AActor>(BP_Bullet,		// What to spawn
+		GetActorLocation(), GetActorRotation());	// Location & Rotation
 }

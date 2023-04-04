@@ -64,12 +64,15 @@ public:
 
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	float TimeSinceShooting;
+
+	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	bool CanShoot;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	TSubclassOf<ABullet> BP_Bullet;
 
 private:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, Category = "AI")
 	UPawnSensingComponent* PawnSensing;
 };
 

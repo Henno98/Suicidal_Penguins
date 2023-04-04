@@ -101,7 +101,7 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 
 		void Shoot(const FInputActionValue& input);
 		void Reload(const FInputActionValue& input);
-		void Restart(const FInputActionValue& input);
+		// void Restart(const FInputActionValue& input);
 		
 	public:
 		//Input
