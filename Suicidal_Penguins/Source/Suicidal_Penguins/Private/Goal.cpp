@@ -2,13 +2,17 @@
 
 
 #include "Goal.h"
-
+#include "Components/BoxComponent.h"
+#include "Penguin.h"
 // Sets default values
 AGoal::AGoal()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
+	SetRootComponent(Collider);
+	Collider->SetRelativeScale3D(FVector(1000,100,100));
+	Collider->OnComponentBeginOverlap.AddDynamic(this, &AGoal::OnOverlap);
 }
 
 // Called when the game starts or when spawned
@@ -24,4 +28,14 @@ void AGoal::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
+void AGoal::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor->IsA<APenguin>())
+	{
+		//GameWon
+
+		//Stop Timer
+
+	}
+};
 
