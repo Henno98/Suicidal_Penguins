@@ -44,6 +44,8 @@ APlayer_Penguin::APlayer_Penguin()
 	checkRestart = 0;
 	GameOver = false;
 	InAir = false;
+	LeftVector = false;
+	RightVector = false;
 }
 
 
@@ -73,6 +75,7 @@ void APlayer_Penguin::Tick(float DeltaTime)
 	FVector NewLocation = GetActorLocation() + (ForwardVector * MovementSpeed * DeltaTime);
 	SetActorLocation(NewLocation);*/
 	Clock += DeltaTime;
+	FVector Gravity = FVector(0, 0, 96) * Clock;
 	AddControllerYawInput(Yaw);
 	AddControllerPitchInput(Pitch);
 
@@ -111,12 +114,50 @@ void APlayer_Penguin::Tick(float DeltaTime)
 		SetActorRotation(Rotation);
 		
 	}
-	if (GetActorLocation().Z > 30) {
-		SetActorLocation(GetActorLocation() - (FVector(0, 0, 9.6)*DeltaTime));
+	if (GetActorLocation().Z > 40 && !InAir) {
+		
+		SetActorLocation(GetActorLocation() - (Gravity * DeltaTime));
+		if (GetActorLocation().Z <= 50)
+			Clock = 0;
 		
 	}
-	
+	if(InAir)
+	{
+		if (GetActorLocation().Z >= 30)
+		{
+			
+			FVector Jump = FVector(0, 0, 200);
+			
+			SetActorLocation(GetActorLocation() + (Jump * DeltaTime));
+
+		}
+		if (Clock >= 1.5f) {
+			InAir = false;
+			
+		}
+		
+		
+	}
+	/*if(LeftVector)
+		{
+			FVector LeftCounter = FVector(2, 200, 0);
+			SetActorLocation(GetActorLocation() - LeftCounter * DeltaTime);
+		}
+
+		if(RightVector)
+		{
+			FVector RightCounter = FVector(2, 200, 0);
+			SetActorLocation(GetActorLocation() + RightCounter * DeltaTime);
+
+		}*/
 }
+
+//FVector GetActorHeight()
+//{
+//	FVector Gravity = FVector(0, 0, 2);
+//	FVector Jump = FVector(0, 0, 10);
+//	return (Jump - Gravity * DeltaTime);
+//}
 
 // Called to bind functionality to input
 void APlayer_Penguin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -166,20 +207,15 @@ void APlayer_Penguin::Forward(const FInputActionValue& input)
 }
 void APlayer_Penguin::Up(const FInputActionValue& input)
 {
-	Zinput = input.Get<float>();
-	/*if (GetActorLocation().Z >= 30 && !InAir) {
-		FVector JumpHeight = GetActorLocation();
-		FVector Gravity = FVector(0, 0, 2);
-		FVector Jump = FVector(0, 0, 10);
-		JumpHeight += (Jump * Clock);
-		SetActorLocation(JumpHeight);
-		
-	}*/
+	InAir = true;
 	
 }
 void APlayer_Penguin::Right(const FInputActionValue& input)
 {
 	YInput = input.Get<float>();
+
+	
+		
 }
 
 void APlayer_Penguin::HitByTarget()

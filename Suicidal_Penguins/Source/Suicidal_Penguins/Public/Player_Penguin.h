@@ -75,6 +75,12 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 			bool InAir;
 
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+			bool RightVector;
+
+			UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+			bool LeftVector;
+
 
 		/** Public Function */
 		void HitByTarget();
@@ -87,6 +93,7 @@ class SUICIDAL_PENGUINS_API APlayer_Penguin : public APawn
 		float Yaw;
 		float Pitch;
 		float Clock;
+		
 
 		void MouseX(const FInputActionValue& input);
 		void MouseY(const FInputActionValue& input);
