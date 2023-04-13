@@ -120,6 +120,8 @@ void APenguin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 		EnhanceInputCom->BindAction(ShootInput, ETriggerEvent::Started, this, &APenguin::Shoot);
 		EnhanceInputCom->BindAction(ReloadInput, ETriggerEvent::Started, this, &APenguin::Reload);
 		EnhanceInputCom->BindAction(RestartInput, ETriggerEvent::Started, this, &APenguin::Restart);
+
+		EnhanceInputCom->BindAction(SettingsInput, ETriggerEvent::Started, this, &APenguin::ToggleSettings);
 	}
 }
 
@@ -145,6 +147,8 @@ void APenguin::MouseY(const FInputActionValue& input)
 	Pitch = input.Get<float>();
 	AddControllerPitchInput(Pitch);
 }
+
+
 
 void APenguin::Forward(const FInputActionValue& input)
 {

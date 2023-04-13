@@ -87,6 +87,7 @@ private:
 
 private:
 	/** Private Functions */
+	
 
 	void Forward(const FInputActionValue& input);
 	void Up(const FInputActionValue& input);
@@ -99,6 +100,8 @@ private:
 	void Drift();
 public:
 	//Input
+	UFUNCTION(BlueprintImplementableEvent)
+		void ToggleSettings();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
 		class UInputMappingContext* MappingContext;
@@ -127,5 +130,8 @@ public:
 		class UInputAction* RestartInput;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
 		class UInputAction* DriftInput;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InputSystem)
+		class UInputAction* SettingsInput;
 
 };
