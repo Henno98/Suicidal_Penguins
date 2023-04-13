@@ -45,8 +45,6 @@ ASeaLeopard::ASeaLeopard()
 	PawnSensing->bSeePawns = true;
 	PawnSensing->OnSeePawn.AddDynamic(this, &ASeaLeopard::PawnSeen);
 	
-	MovementSpeed = 0;
-	RotationSpeed = 0.f;
 	ShootDelay = 3.f;
 	TimeSinceShooting = 3.f;
 	CanShoot = false;
