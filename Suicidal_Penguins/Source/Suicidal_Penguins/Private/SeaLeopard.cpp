@@ -9,12 +9,15 @@
 #include "AIController.h"
 #include "Engine/StaticMeshSocket.h"
 #include "Bullet.h"
+#include "Algo/Rotate.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/Pawn.h"
 #include "Math/UnitConversion.h"
+#include "Particles/Collision/ParticleModuleCollisionGPU.h"
 
 // Sets default values
 ASeaLeopard::ASeaLeopard()
@@ -45,8 +48,9 @@ ASeaLeopard::ASeaLeopard()
 	PawnSensing->bSeePawns = true;
 	PawnSensing->OnSeePawn.AddDynamic(this, &ASeaLeopard::PawnSeen);
 	
-	ShootDelay = 3.f;
-	TimeSinceShooting = 3.f;
+	ShootDelay = 2.f;
+	TimeSinceShooting = 2.f;
+	RotationSpeed = 1.f;
 	CanShoot = false;
 }
 
@@ -58,50 +62,95 @@ void ASeaLeopard::BeginPlay()
 
 void ASeaLeopard::PawnSeen(APawn* SeenPawn)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Seen Pawn"));
-
-	// Check if the seen pawn is the player
-	APawn* Player = UGameplayStatics::GetPlayerPawn(this, 0);
-	if (SeenPawn == Player)
-	{
-		// Check if the player is within range and not behind a wall
-		bool bCanSeePlayer = PawnSensing->HasLineOfSightTo(Player) && (GetDistanceTo(Player) <= PawnSensing->SightRadius);
-		if (bCanSeePlayer)
-		{
-			// Rotate the pawn toward the player
-			FVector PlayerLocation = Player->GetActorLocation();
-			FVector PawnLocation = GetActorLocation();
-			FRotator NewRotation = (PlayerLocation - PawnLocation).Rotation();
-			SetActorRotation(NewRotation);
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Pawn is not Player"));
-	}
+	// UE_LOG(LogTemp, Warning, TEXT("Seen Pawn"));
+	//
+	// // Check if the seen pawn is the player
+	// APawn* Player = UGameplayStatics::GetPlayerPawn(this, 0);
+	// if (SeenPawn == Player)
+	// {
+	// 	// Check if the player is within range and not behind a wall
+	// 	bool bCanSeePlayer = PawnSensing->HasLineOfSightTo(Player) && (GetDistanceTo(Player) <= PawnSensing->SightRadius);
+	// 	if (bCanSeePlayer)
+	// 	{
+	// 		// Rotate the pawn toward the player
+	// 		// FVector PlayerLocation = Player->GetActorLocation();
+	// 		// FVector PawnLocation = GetActorLocation();
+	// 		// FRotator NewRotation = (PlayerLocation - PawnLocation).Rotation();
+	// 		// SetActorRotation(NewRotation);
+	//
+	// 		// Get the player's location
+	// 		FVector PlayerLocation = SeenPawn->GetActorLocation();
+	//
+	// 		// Calculate the rotation needed to face the player
+	// 		FRotator NewRotation = (PlayerLocation - GetActorLocation()).Rotation();
+	//
+	// 		// Smoothly interpolate to the new rotation over time
+	// 		FQuat StartRotation = GetActorRotation().Quaternion();
+	// 		FQuat TargetRotation = NewRotation.Quaternion();
+	// 		FQuat NewQuat = FMath::QInterpTo(StartRotation, TargetRotation, GetWorld()->DeltaTimeSeconds, RotationSpeed);
+	// 		SetActorRotation(NewQuat.Rotator());
+	// 		CanShoot = true;
+	// 	}
+	// }
+	// else
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("Pawn is not Player"));
+	// 	CanShoot = false;
+	// }
 	
-	 // Check if the pawn can see the player
-	 if (PawnSensing->HasLineOfSightTo(SeenPawn))
-	 {
-	 // Get the player location and rotate towards it
-	 	FVector PlayerLocation = Player->GetActorLocation();
-	 	FRotator LookAtRotation = FRotationMatrix::MakeFromX(PlayerLocation - GetActorLocation()).Rotator();
-	  	SetActorRotation(LookAtRotation);
-	 	CanShoot = true;
-	 }
-	 else
-	 {
-	 	UE_LOG(LogTemp, Warning, TEXT("No Player seen"));
-	 	CanShoot = false;
-	 }
+	 // // Check if the pawn can see the player
+	 // if (PawnSensing->HasLineOfSightTo(SeenPawn))
+	 // {
+	 // // Get the player location and rotate towards it
+	 // 	FVector PlayerLocation = Player->GetActorLocation();
+	 // 	FRotator LookAtRotation = FRotationMatrix::MakeFromX(PlayerLocation - GetActorLocation()).Rotator();
+	 //  	SetActorRotation(LookAtRotation);
+	 // 	CanShoot = true;
+	 // }
+	 // else
+	 // {
+	 // 	UE_LOG(LogTemp, Warning, TEXT("No Player seen"));
+	 // 	CanShoot = false;
+	 // }
 
-	
+	// // Get the player's location
+	// FVector PlayerLocation = SeenPawn->GetActorLocation();
+	//
+	// // Calculate the rotation needed to face the player
+	// FRotator NewRotation = (PlayerLocation - GetActorLocation()).Rotation();
+	//
+	// // Smoothly interpolate to the new rotation over time
+	// FQuat StartRotation = GetActorRotation().Quaternion();
+	// FQuat TargetRotation = NewRotation.Quaternion();
+	// FQuat NewQuat = FMath::QInterpTo(StartRotation, TargetRotation, GetWorld()->DeltaTimeSeconds, RotationSpeed);
+	// SetActorRotation(NewQuat.Rotator());
 }
 
 // Called every frame
 void ASeaLeopard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	APawn* Player = UGameplayStatics::GetPlayerPawn(this, 0);
+	bool bCanSeePlayer = PawnSensing->HasLineOfSightTo(Player) && (GetDistanceTo(Player) <= PawnSensing->SightRadius);
+	if (StopMoving == false)
+	{
+		if (bCanSeePlayer)
+		{
+			// Get the player's location
+			FVector PlayerLocation = Player->GetActorLocation();
+
+			// Calculate the rotation needed to face the player
+			FRotator NewRotation = (PlayerLocation - GetActorLocation()).Rotation();
+
+			// Smoothly interpolate to the new rotation over time
+			FQuat StartRotation = GetActorRotation().Quaternion();
+			FQuat TargetRotation = NewRotation.Quaternion();
+			FQuat NewQuat = FMath::QInterpTo(StartRotation, TargetRotation, GetWorld()->DeltaTimeSeconds, RotationSpeed);
+			SetActorRotation(NewQuat.Rotator());
+			CanShoot = true;
+		}
+	}
 
 	if (CanShoot == true)
 	{
