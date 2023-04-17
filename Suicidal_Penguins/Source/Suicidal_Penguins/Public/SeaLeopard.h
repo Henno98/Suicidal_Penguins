@@ -23,9 +23,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void PawnSeen(APawn* SeenPawn);
-
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -53,20 +50,32 @@ public:
 	void Shoot();
 
 	//Variables
-	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-	float MovementSpeed;
-
-	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
-	float RotationSpeed;
+	// UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	// float MovementSpeed;
+	//
+	// UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	// float RotationSpeed;
 
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	float ShootDelay;
-
+	
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	float TimeSinceShooting;
 
 	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	bool CanShoot;
+
+	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	bool StopMoving;
+
+	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	float StopDuration;
+	
+	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	float StopInterval;
+
+	UPROPERTY(meta = (AllowPrivateAccess = "true"), EditAnywhere, BlueprintReadWrite, Category = "My Variables")
+	float RotationSpeed;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "My Variables")
 	TSubclassOf<ABullet> BP_Bullet;
