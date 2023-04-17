@@ -23,9 +23,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void PawnSeen(APawn* SeenPawn);
-
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

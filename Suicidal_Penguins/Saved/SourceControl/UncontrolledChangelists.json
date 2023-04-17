@@ -5,6 +5,9 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"D:/Programming_02/Suicidal_Penguins/Suicidal_Penguins/Content/Blueprints/BP_EnemyBullet.uasset",
+				"D:/Programming_02/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/Basic_map.umap",
+				"D:/Programming_02/Suicidal_Penguins/Suicidal_Penguins/Content/Blueprints/BP_SeaLeopard.uasset",
 				"D:/Programming II/Suicidal_Penguins/Suicidal_Penguins/Content/Maps/AITest.umap",
 				"D:/Programming II/Suicidal_Penguins/Suicidal_Penguins/Content/Blueprints/BP_Enemy.uasset",
 				"D:/Programming II/Suicidal_Penguins/Suicidal_Penguins/Content/Blueprints/BP_Goal.uasset",
